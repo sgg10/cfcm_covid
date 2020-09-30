@@ -1,4 +1,4 @@
-# cfcm_covid
+# CFCM_Covid
 
 ## Project setup
 ```
