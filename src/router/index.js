@@ -9,6 +9,7 @@ const routerOptions = [
   { path: '/error', name: 'Error' },
   { path: '/admin', name: 'Admin' },
   { path: '/login', name: 'Login' },
+  { path: '/progevento', name: 'ProgEvento' },
   { path: '*', redirect: { name: 'Home' } }
 ]
 
