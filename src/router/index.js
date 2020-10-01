@@ -7,6 +7,8 @@ const routerOptions = [
   { path: '/', name: 'Home' },
   { path: '/about', name: 'About' },
   { path: '/error', name: 'Error' },
+  { path: '/admin', name: 'Admin' },
+  { path: '/login', name: 'Login' },
   { path: '*', redirect: { name: 'Home' } }
 ]
 
