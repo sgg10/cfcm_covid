@@ -8,6 +8,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// Services
+import './backend/Services/Init'
+
 Vue.config.productionTip = false
 
 new Vue({
