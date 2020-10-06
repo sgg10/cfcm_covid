@@ -7,5 +7,8 @@ export default {
     SET_LOADING (state, payload) {
       state.isLoading = payload
     }
+  },
+  getters: {
+    isLoading: state => state.isLoading
   }
 }

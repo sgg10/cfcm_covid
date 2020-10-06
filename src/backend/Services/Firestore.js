@@ -3,7 +3,7 @@ import { firestore } from 'firebase'
 class Firestore {
   getAll = (collection) => firestore().collection(collection)
 
-  getById = (collection, id) => firestore().collection(collection).id(id)
+  getById = (collection, id) => firestore().collection(collection).doc(id)
 
   create = (collection, data) => firestore().collection(collection).add(data)
 

@@ -24,8 +24,11 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-form-group label="Cupos">
-             <b-form-input type="number" placeholder="Cupos" class="input" required v-model="cupo"></b-form-input>
+            <b-form-group label="Cupos Adultos">
+             <b-form-input type="number" placeholder="Cupos" class="input" required v-model="cupoAdultos"></b-form-input>
+            </b-form-group>
+            <b-form-group label="Cupos Niños">
+             <b-form-input type="number" placeholder="Cupos" class="input" required v-model="cupoNinos"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
@@ -43,19 +46,20 @@
 import { showToast } from '../../utils'
 import { create } from '../../backend/Controllers/FirestoreController'
 export default {
-  name: 'Programar Evento',
+  name: 'ProgramarEvento',
   data () {
     return {
       name: '',
       date: '',
       hour: '',
-      cupo: ''
+      cupoAdultos: 0,
+      cupoNinos: 0
     }
   },
   methods: {
     async crear () {
       try {
-        await create('Cultos', { name: this.name, date: this.date, hour: this.hour, cupo: this.cupo })
+        await create('Cultos', { name: this.name, date: this.date, hour: this.hour, cupoAdultos: parseInt(this.cupoAdultos), cupoNinos: parseInt(this.cupoNinos) })
         showToast(this.$bvToast, 'Tarea finalizada', 'El culto se ha creado', 'success')
         this.$router.push({ name: 'Admin' })
       } catch (error) {
