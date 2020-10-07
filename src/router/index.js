@@ -11,6 +11,7 @@ const routerOptions = [
   { path: '/login', name: 'Login' },
   { path: '/progevento', name: 'ProgEvento' },
   { path: '/asistencia', name: 'Asistencia' },
+  { path: '/consevento', name: 'ConsEvento' },
   { path: '/registro', name: 'Registro', params: true, props: true },
   { path: '*', redirect: { name: 'Home' } }
 ]

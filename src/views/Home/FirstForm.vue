@@ -69,7 +69,7 @@ export default {
   },
   created () {
     try {
-      getAll('Cultos').get().then(result => {
+      getAll('Cultos').where('abierto', '==', true).get().then(result => {
         if (!result.empty) {
           this.cultos = result.docs.map(c => ({
             value: { ...c.data(), id: c.id },

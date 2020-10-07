@@ -91,7 +91,7 @@ export default {
   async created () {
     try {
       // this.SET_LOADING(true)
-      const result = await getAll('Cultos').get()
+      const result = await getAll('Cultos').where('abierto', '==', true).get()
       this.cultos = result.docs.map(c => ({
         value: { ...c.data(), id: c.id },
         text: `${c.data().date} || ${c.data().hour}`

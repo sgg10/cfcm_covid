@@ -59,7 +59,7 @@ export default {
   methods: {
     async crear () {
       try {
-        await create('Cultos', { name: this.name, date: this.date, hour: this.hour, cupoAdultos: parseInt(this.cupoAdultos), cupoNinos: parseInt(this.cupoNinos) })
+        await create('Cultos', { name: this.name, date: this.date, hour: this.hour, cupoAdultos: parseInt(this.cupoAdultos), cupoNinos: parseInt(this.cupoNinos), abierto: true })
         showToast(this.$bvToast, 'Tarea finalizada', 'El culto se ha creado', 'success')
         this.$router.push({ name: 'Admin' })
       } catch (error) {
