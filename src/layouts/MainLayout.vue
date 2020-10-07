@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Header class="mt-3"/>
+    <Header class="my-3"/>
 
     <router-view/>
 

@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { create, getById, update } from '../../backend/Controllers/FirestoreController'
+import { create, getAll, getById, update } from '../../backend/Controllers/FirestoreController'
 import { showToast } from '../../utils'
 export default {
   name: 'PersonalForm',
@@ -87,45 +87,55 @@ export default {
   },
   methods: {
     async reservar () {
-      const culto = await getById('Cultos', this.idCulto).get()
-      const dataCulto = { ...culto.data() }
+      try {
+        const query = await getAll('Reservas').where('documento', '==', this.documento).where('culto', '==', this.idCulto).get()
+        if (query.empty) {
+          const culto = await getById('Cultos', this.idCulto).get()
+          const dataCulto = { ...culto.data() }
 
-      let permiso = true
-      let msg = ''
+          let permiso = true
+          let msg = ''
 
-      if ((dataCulto.cupoAdultos + dataCulto.cupoNinos) > 0) {
-        if (this.esNino && dataCulto.cupoNinos === 0) {
-          permiso = false
-          msg = 'No hay cupo para niños'
-        }
-        if (!this.esNino && dataCulto.cupoAdultos === 0) {
-          permiso = false
-          msg = 'No hay cupo para adultos'
-        }
-      } else {
-        permiso = false
-        msg = 'No quedan cupos diponibles'
-      }
+          if ((dataCulto.cupoAdultos + dataCulto.cupoNinos) > 0) {
+            if (this.esNino && dataCulto.cupoNinos === 0) {
+              permiso = false
+              msg = 'No hay cupo para niños'
+            }
+            if (!this.esNino && dataCulto.cupoAdultos === 0) {
+              permiso = false
+              msg = 'No hay cupo para adultos'
+            }
+          } else {
+            permiso = false
+            msg = 'No quedan cupos diponibles'
+          }
 
-      if (permiso) {
-        if (this.esNino) {
-          dataCulto.cupoNinos--
+          if (permiso) {
+            if (this.esNino) {
+              dataCulto.cupoNinos--
+            } else {
+              dataCulto.cupoAdultos--
+            }
+            await create('Reservas', {
+              name: this.name,
+              edad: parseInt(this.edad),
+              esNino: this.esNino,
+              tipoDoc: this.tipoDoc,
+              documento: this.documento,
+              email: this.email,
+              culto: this.idCulto,
+              asistio: false
+            })
+            await update('Cultos', this.idCulto, dataCulto)
+            this.$router.push({ name: 'Home' })
+          } else {
+            showToast(this.$bvToast, 'Error', msg, 'danger')
+          }
         } else {
-          dataCulto.cupoAdultos--
+          showToast(this.$bvToast, 'Error', 'Ya tienes una reserva para este culto', 'danger')
         }
-        await create('Reservas', {
-          name: this.name,
-          edad: parseInt(this.edad),
-          esNino: this.esNino,
-          tipoDoc: this.tipoDoc,
-          documento: this.documento,
-          email: this.email,
-          culto: this.idCulto
-        })
-        await update('Cultos', this.idCulto, dataCulto)
-        this.$router.push({ name: 'Home' })
-      } else {
-        showToast(this.$bvToast, 'Error', msg, 'danger')
+      } catch (error) {
+        showToast(this.$bvToast, 'Error', error.message, 'danger')
       }
     }
   }
