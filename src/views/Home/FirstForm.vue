@@ -73,7 +73,7 @@ export default {
         if (!result.empty) {
           this.cultos = result.docs.map(c => ({
             value: { ...c.data(), id: c.id },
-            text: `${c.data().date} || ${c.data().hour}`
+            text: `${c.data().name} || ${c.data().date} || ${c.data().hour}`
           }))
         }
       })

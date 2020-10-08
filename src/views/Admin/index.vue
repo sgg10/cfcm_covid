@@ -7,7 +7,7 @@
             <Card
               title="Programar Culto"
               msg="Genere una nueva reunion donde se podran las usuarios se podran registrar para asistir."
-              img="https://firebasestorage.googleapis.com/v0/b/maquillaje-permanente.appspot.com/o/Imgs%2Fcejas-tatuadas_opt-1.png?alt=media&token=6093cbaf-658f-4e3c-8945-767e159523b0"
+              img=""
               @action="procedure = $event;go('ProgEvento')"
             />
           </b-col>
@@ -15,7 +15,7 @@
             <Card
               title="Tomar Asistencia"
               msg="Aquí podra tomar la asistencia de las personas que reservaron para algun culto."
-              img="https://firebasestorage.googleapis.com/v0/b/maquillaje-permanente.appspot.com/o/Imgs%2Fcejas-tatuadas_opt-1.png?alt=media&token=6093cbaf-658f-4e3c-8945-767e159523b0"
+              img=""
               @action="procedure = $event;go('Asistencia')"
             />
           </b-col>
@@ -23,7 +23,7 @@
             <Card
               title="Consultar Culto"
               msg="Consulte todos los detalles de cada culto realizado y las personas que asistieron."
-              img="https://firebasestorage.googleapis.com/v0/b/maquillaje-permanente.appspot.com/o/Imgs%2Fcejas-tatuadas_opt-1.png?alt=media&token=6093cbaf-658f-4e3c-8945-767e159523b0"
+              img=""
               @action="procedure = $event;go('ConsEvento')"
             />
           </b-col>

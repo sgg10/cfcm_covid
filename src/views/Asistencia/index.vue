@@ -28,8 +28,12 @@
     <div v-else class="text-left">
       <b-container>
         <b-form @submit.prevent="ingresar">
+          <p><strong>Nombre: </strong> {{ reserva.name }}</p>
+          <p><strong>N. Documento: </strong>{{ reserva.documento }}</p>
+          <p><strong>Tipo Documento: </strong>{{ reserva.tipoDoc }}</p>
+          <p v-if="reserva.esNino"><strong>¿Es niñ@?: </strong>Si</p>
           <b-form-group label="Temperatura: ">
-            <b-form-input type="number" placeholder="Temperatura"
+            <b-form-input type="text" placeholder="Temperatura"
             class="input" required v-model="temperatura"></b-form-input>
           </b-form-group>
           <b-button type="submit" variant="success" size="lg" class="mt-4">Ingresar</b-button>
@@ -76,7 +80,7 @@ export default {
     },
     async ingresar () {
       try {
-        await update('Reservas', this.reserva.id, { asistio: true, temperatura: parseInt(this.temperatura) })
+        await update('Reservas', this.reserva.id, { asistio: true, temperatura: parseFloat(this.temperatura) })
         this.cultoSeleccionado = ''
         this.documento = ''
         this.encontrado = false
@@ -94,7 +98,7 @@ export default {
       const result = await getAll('Cultos').where('abierto', '==', true).get()
       this.cultos = result.docs.map(c => ({
         value: { ...c.data(), id: c.id },
-        text: `${c.data().date} || ${c.data().hour}`
+        text: `${c.data().name} || ${c.data().date} || ${c.data().hour}`
       }))
     } catch (error) {
       showToast(this.$bvToast, 'Error', 'No se han podido realizar las consultas, intenta de nuevo', 'danger')

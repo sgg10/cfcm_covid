@@ -52,7 +52,7 @@ export default {
     async signInEmail () {
       try {
         await signInEmail(this.email, this.pass)
-        this.$router.push({ name: 'Home' })
+        this.$router.push({ name: 'Admin' })
       } catch (error) {
         showToast(this.$bvToast, 'Error', error.message, 'danger')
       }
@@ -65,7 +65,7 @@ export default {
   },
   created () {
     // eslint-disable-next-line no-unused-expressions
-    this.user ? this.$router.push({ name: 'Home' }) : null
+    this.user ? this.$router.push({ name: 'Admin' }) : null
   }
 }
 </script>

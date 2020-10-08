@@ -19,9 +19,7 @@
     </b-row>
     <b-row class="justify-content-md-center mt-3">
       <b-col cols="12" md="auto">
-        <div v-for="(item, index) in reservas" :key="index">
-          <b-button @click="showReserva(item)" class="mb-3 mx-3" variant="info">{{ item.name }} | {{ item.documento }}</b-button>
-        </div>
+        <b-button v-for="(item, index) in reservas" :key="index"  @click="showReserva(item)" class="mb-3 mx-3" variant="info">{{ item.name }} || {{ item.documento }}</b-button>
         <b-modal id="modalReserva" :title="`Reserva - ${reservaSeleccionada.id}`">
           <p><strong>Nombre: </strong> {{ reservaSeleccionada.name }}</p>
           <p><strong>N. Documento: </strong>{{ reservaSeleccionada.documento }}</p>
@@ -75,7 +73,7 @@ export default {
         const result = await getAll('Cultos').get()
         this.cultos = result.docs.map(c => ({
           value: { ...c.data(), id: c.id },
-          text: `${c.data().date} || ${c.data().hour}`
+          text: `${c.data().name} || ${c.data().date} || ${c.data().hour}`
         }))
       } catch (error) {
         showToast(this.$bvToast, 'Error', 'No se han podido realizar las consultas, intenta de nuevo', 'danger')
