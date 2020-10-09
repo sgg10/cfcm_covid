@@ -21,7 +21,8 @@
           </b-form-group>
         </b-col>
         <b-col>
-          <b-button @click="buscar" variant="success" size="lg" class="mt-4">Buscar</b-button>
+          <b-button @click="buscar" variant="success" size="lg" class="mt-4 mx-2">Buscar</b-button>
+          <b-button @click="liberar" variant="danger" size="lg" class="mt-4 mx-2">Liberar Reserva</b-button>
         </b-col>
       </b-row>
     </div>
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-import { getAll, update } from '../../backend/Controllers/FirestoreController'
+import { deleted, getAll, update } from '../../backend/Controllers/FirestoreController'
 import { mapGetters, mapMutations } from 'vuex'
 import { showToast } from '../../utils'
 export default {
@@ -68,6 +69,36 @@ export default {
           if (!result.docs[0].data().asistio) {
             this.encontrado = true
             this.reserva = { ...result.docs[0].data(), id: result.docs[0].id }
+          } else {
+            showToast(this.$bvToast, 'Error', 'Esta persona ya ingreso al culto', 'warning')
+          }
+        } else {
+          showToast(this.$bvToast, 'Error', 'La persona no tiene reserva para este culto', 'warning')
+        }
+      } catch (error) {
+        showToast(this.$bvToast, 'Error', error.message, 'danger')
+      }
+    },
+    async liberar () {
+      try {
+        const result = await getAll('Reservas').where('documento', '==', this.documento).where('culto', '==', this.cultoSeleccionado.id).get()
+        if (!result.empty) {
+          if (!result.docs[0].data().asistio) {
+            const reserva = { ...result.docs[0].data(), id: result.docs[0].id }
+            const copyCulto = this.cultoSeleccionado
+            if (reserva.esNino) {
+              copyCulto.cupoNinos++
+            } else {
+              copyCulto.cupoAdultos++
+            }
+            await update('Cultos', copyCulto.id, copyCulto)
+            await deleted('Reservas', reserva.id)
+            this.cultoSeleccionado = ''
+            this.documento = ''
+            this.encontrado = false
+            this.reserva = {}
+            this.temperatura = 0
+            showToast(this.$bvToast, 'Tarea finalizada', 'Se ha eliminado esta reserva', 'success')
           } else {
             showToast(this.$bvToast, 'Error', 'Esta persona ya ingreso al culto', 'warning')
           }
